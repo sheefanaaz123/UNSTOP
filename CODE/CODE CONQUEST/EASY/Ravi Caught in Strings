@@ -1,0 +1,75 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int palindromeCache[1001][1001]; // Cache to store whether substrings are palindromic
+    
+    // Helper function to check if a substring is a palindrome
+    bool isPalindrome(string &s, int left, int right) {
+        if (left >= right)
+            return true;
+
+        // Check if the result is already in the cache
+        if (palindromeCache[left][right] != -1) {
+            return palindromeCache[left][right];
+        }
+
+        // Check if the characters at the current positions match
+        bool result = (s[left] == s[right]) && isPalindrome(s, left + 1, right - 1);
+
+        // Store the result in the cache
+        palindromeCache[left][right] = result;
+
+        return result;
+    }
+
+    // Function to find the length of the longest palindromic substring
+    int findLongestPalindromeLength(string &s) {
+        int n = s.length();
+        
+        int maxLength = INT_MIN;
+        memset(palindromeCache, -1, sizeof(palindromeCache)); // Initialize the cache with -1
+
+        for (int start = 0; start < n; start++) {
+            for (int end = start; end < n; end++) {
+                // Check if the substring is a palindrome
+                if (isPalindrome(s, start, end)) {
+                    // Update the maximum length if the current palindrome is longer
+                    maxLength = max(maxLength, end - start + 1);
+                }
+            }
+        }
+
+        return maxLength;
+    }
+
+    // Function to find the longest palindromic substring
+    string longestPalindrome(string s) {
+        int n = s.length();
+        
+        int longestPalindromeLength = findLongestPalindromeLength(s);
+
+        // Extract the substring using the starting index and length
+        return s.substr(0, longestPalindromeLength);
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    string inputString;
+    cin >> inputString;
+
+    Solution solutionObject;
+    string result = solutionObject.longestPalindrome(inputString);
+    
+    cout << result;
+
+    return 0;
+}
