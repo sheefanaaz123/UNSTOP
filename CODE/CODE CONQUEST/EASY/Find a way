@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+struct TreeNode {
+    int left, right;
+    TreeNode() : left(-1), right(-1) {}
+};
+
+class Solution {
+public:
+    int marathonLength(TreeNode* vertices, int n) {
+        int diameter = 0;
+        heightAndDiameter(1, vertices, diameter);
+        return diameter;
+    }
+
+private:
+    int heightAndDiameter(int root, TreeNode* vertices, int& diameter) {
+        if (root == -1) {
+            return 0;
+        }
+
+        int lh = heightAndDiameter(vertices[root].left, vertices, diameter);
+        int rh = heightAndDiameter(vertices[root].right, vertices, diameter);
+
+        diameter = std::max(diameter, lh + rh);
+
+        return std::max(lh, rh) + 1;
+    }
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    TreeNode* vertices = new TreeNode[n + 1];
+
+    for (int i = 1; i <= n; ++i) {
+        std::cin >> vertices[i].left >> vertices[i].right;
+    }
+
+    Solution solution;
+    int result = solution.marathonLength(vertices, n);
+
+    std::cout << result << std::endl;
+
+    delete[] vertices;
+
+    return 0;
+}
