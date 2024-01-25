@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+  string s;
+  getline(cin,s);
+
+  stringstream ss(s);
+  string word;
+
+  vector<string>v;
+
+  while(ss>>word){
+    v.push_back(word);
+  }
+
+  reverse(v.begin(), v.end());
+  
+  for(int i = v.size()-1; i>=0; i--){
+    reverse(v[i].begin(), v[i].end());
+    cout<<v[i];
+    if(i>0){
+      cout<<" ";
+    }
+  }
+
+  return 0;
+}
