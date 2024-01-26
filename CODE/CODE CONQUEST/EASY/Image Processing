@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void floodFill(int M, int N, vector<vector<int>>& image, int sr, int sc, int newColor) {
+    int oldColor = image[sr][sc];
+    if (oldColor == newColor) return;
+
+    image[sr][sc] = newColor;
+
+    if (sr > 0 && image[sr - 1][sc] == oldColor)
+        floodFill(M, N, image, sr - 1, sc, newColor);
+
+    if (sr < M - 1 && image[sr + 1][sc] == oldColor)
+        floodFill(M, N, image, sr + 1, sc, newColor);
+
+    if (sc > 0 && image[sr][sc - 1] == oldColor)
+        floodFill(M, N, image, sr, sc - 1, newColor);
+
+    if (sc < N - 1 && image[sr][sc + 1] == oldColor)
+        floodFill(M, N, image, sr, sc + 1, newColor);
+}
+
+int main() {
+    int M, N;
+    cin >> M >> N;
+
+    vector<vector<int>> image(M, vector<int>(N));
+    for (int i = 0; i < M; ++i)
+        for (int j = 0; j < N; ++j)
+            cin >> image[i][j];
+
+    int sr, sc, newColor;
+    cin >> sr >> sc >> newColor;
+
+    floodFill(M, N, image, sr, sc, newColor);
+
+    for (int i = 0; i < M; ++i) {
+        for (int j = 0; j < N; ++j)
+            cout << image[i][j] << " ";
+        cout << endl;
+    }
+
+    return 0;
+}
