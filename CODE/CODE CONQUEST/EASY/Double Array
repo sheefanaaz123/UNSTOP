@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    // Input
+    int n;
+    cin >> n;
+
+    vector<int> sequence(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> sequence[i];
+    }
+
+    // Sorting the sequence
+    sort(sequence.begin(), sequence.end());
+
+    // Concatenating the sorted sequence with itself
+    for (int i = 0; i < n; ++i) {
+        cout << sequence[i] << " ";
+    }
+
+    for (int i = 0; i < n; ++i) {
+        cout << sequence[i] << " ";
+    }
+
+    return 0;
+}
