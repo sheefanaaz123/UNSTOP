@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string interpret_enigma(const string& command) {
+    string result = "";
+    int i = 0;
+
+    while (i < command.length()) {
+        if (command[i] == 'S') {
+            result += "send";
+            i += 1;
+        } else if (command.substr(i, 2) == "[]") {
+            result += "the";
+            i += 2;
+        } else if (command.substr(i, 5) == "[sps]") {
+            result += "ships";
+            i += 5;
+        } else {
+            result += command[i];
+            i += 1;
+        }
+
+        if (i < command.length()) {
+            result += " ";
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    // Input
+    string command;
+    getline(cin, command);
+
+    // Output
+    cout << interpret_enigma(command) << endl;
+
+    return 0;
+}
