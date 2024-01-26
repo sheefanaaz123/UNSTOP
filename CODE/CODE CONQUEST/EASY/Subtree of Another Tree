@@ -1,0 +1,105 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
+string s;
+int N, M;
+vector<string> WorldA, WorldB;
+
+bool ans = false;
+
+bool match(TreeNode *root, TreeNode *subRoot) {
+    if (root != nullptr && subRoot != nullptr) {
+        bool a = match(root->left, subRoot->left);
+        bool b = match(root->right, subRoot->right);
+
+        return (root->val == subRoot->val) && a && b;
+    } else {
+        return (root == nullptr && subRoot == nullptr);
+    }
+}
+
+void inorder(TreeNode *root, TreeNode *subRoot) {
+    if (root != nullptr) {
+        inorder(root->left, subRoot);
+
+        bool x = match(root, subRoot);
+
+        if (x) {
+            ans = true;
+        }
+
+        inorder(root->right, subRoot);
+    }
+}
+
+bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+    inorder(root, subRoot);
+    return ans;
+}
+
+// Function to insert nodes in level order
+TreeNode* insertNodes(vector<string> arr, int i) {
+    // Base case for recursion
+    int n = arr.size();
+
+    if (i >= n || arr[i] == "null") {
+        return nullptr;
+    }
+
+    int data = stoi(arr[i]);
+    TreeNode* root = new TreeNode(data);
+    root->right = insertNodes(arr, 2 * i + 2);
+    root->left = insertNodes(arr, 2 * i + 1);
+
+    return root;
+}
+
+int stoi(string& s) {
+    stringstream ss(s);
+
+    int x = 0;
+    ss >> x;
+
+    return x;
+}
+
+int main() {
+    // Taking inputs
+    cin >> N;
+
+    for (int i = 0; i < N; i++) {
+        cin >> s;
+        WorldA.push_back(s);
+    }
+
+    cin >> M;
+
+    for (int i = 0; i < M; i++) {
+        cin >> s;
+        WorldB.push_back(s);
+    }
+
+    // Construction of Trees
+    TreeNode* A = insertNodes(WorldA, 0);
+    TreeNode* B = insertNodes(WorldB, 0);
+
+    isSubtree(A, B);
+
+    if (ans) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+
+    return 0;
+}
