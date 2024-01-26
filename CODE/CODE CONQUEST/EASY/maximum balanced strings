@@ -1,0 +1,43 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    string input;
+    getline(cin, input);
+    int l = input.length(), flagi=0, flago=0, count=0;
+    char *output = new char[2*l];
+
+    for(int i=0; i<l; i++)
+    {
+        if(input[i] == 'R')
+            count++;
+        else
+            count--;
+        
+        if(count == 0)
+        {
+            output[flago] = '(';
+            flago++;
+                
+            while(flagi<=i){
+                output[flago] = input[flagi];
+                flago++;
+                flagi++;
+            }
+            
+            output[flago] = ')';
+            flago++;
+        }
+    }
+
+    for(int i=0; i< flago; i++)
+        cout<<output[i];
+
+    delete[] output;
+    return 0;
+}
