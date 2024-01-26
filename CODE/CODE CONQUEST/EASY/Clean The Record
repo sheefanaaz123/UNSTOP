@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+ListNode* removeDuplicates(ListNode* head) {
+    if (!head || !head->next) {
+        return head;
+    }
+
+    unordered_set<int> uniqueValues;
+    ListNode* current = head;
+    ListNode* prev = nullptr;
+
+    while (current) {
+        if (uniqueValues.count(current->val)) {
+            prev->next = current->next;
+            delete current;
+            current = prev->next;
+        } else {
+            uniqueValues.insert(current->val);
+            prev = current;
+            current = current->next;
+        }
+    }
+
+    return head;
+}
+
+void printList(ListNode* head) {
+    while (head) {
+        cout << head->val << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    ListNode* head = nullptr;
+    ListNode* tail = nullptr;
+
+    for (int i = 0; i < n; ++i) {
+        int value;
+        cin >> value;
+
+        if (head==nullptr) {
+            head = new ListNode(value);
+            tail = head;
+        } else {
+            tail->next = new ListNode(value);
+            tail = tail->next;
+        }
+    }
+
+    head = removeDuplicates(head);
+
+    int count = 0;
+    ListNode* temp = head;
+    while (temp) {
+        count++;
+        temp = temp->next;
+    }
+
+    cout << count << endl;
+    printList(head);
+
+    return 0;
+}
