@@ -1,0 +1,56 @@
+#include <iostream>
+
+using namespace std;
+
+// Definition for singly-linked list
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+int binaryToDecimal(ListNode* head) {
+    int decimal = 0;
+
+    while (head != nullptr) {
+        decimal = decimal * 2 + head->val;
+        head = head->next;
+    }
+
+    return decimal;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    // Create the linked list
+    ListNode* head = nullptr;
+    ListNode* current = nullptr;
+
+    for (int i = 0; i < n; ++i) {
+        int val;
+        cin >> val;
+
+        if (head == nullptr) {
+            head = new ListNode(val);
+            current = head;
+        } else {
+            current->next = new ListNode(val);
+            current = current->next;
+        }
+    }
+
+    int result = binaryToDecimal(head);
+
+    cout << result << endl;
+
+    // Deallocate memory (optional)
+    while (head != nullptr) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}
