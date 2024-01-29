@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<int> mergedList(2 * n);
+
+    for (int i = 0; i < 2 * n; ++i) {
+        cin >> mergedList[i];
+    }
+
+    vector<int> productIDs(n);
+    vector<int> sizes(n);
+
+    // Extract product IDs and sizes
+    for (int i = 0; i < n; ++i) {
+        productIDs[i] = mergedList[i];
+    }
+
+    for (int i = n; i < 2 * n; ++i) {
+        sizes[i - n] = mergedList[i];
+    }
+
+    // Print the recovered list
+    for (int i = 0; i < n; ++i) {
+        cout << productIDs[i] << " " << sizes[i] << " ";
+    }
+
+    cout << endl;
+
+    return 0;
+}
