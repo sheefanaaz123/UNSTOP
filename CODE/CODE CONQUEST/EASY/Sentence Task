@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+// Function to sort a sentence based on word positions
+string sortSentence(string s) {
+    map<int, string> mp;  // Map to store words with their corresponding positions
+    string ans = "", temp = "";  // Variables to store the final result and temporary words
+    int pos = 0;  // Variable to store the position of the current word
+    
+    // Iterate through the input string
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == ' ') {  // Check for space to identify the end of a word
+            pos = temp.back() - '0'; // Convert the last character of 'temp' to an integer (position)
+            temp.pop_back();  // Remove the last character (position) from 'temp'
+            mp[pos] = temp;  // Store the word in the map with its corresponding position
+            temp = "";  // Reset 'temp' for the next word
+        } else {
+            temp += s[i];  // Build the word by appending characters
+        }
+    }
+
+    // Process the last word in the input string
+    pos = temp.back() - '0';
+    temp.pop_back();
+    mp[pos] = temp;
+
+    // Construct the final sentence by appending words from the sorted map to the result string
+    for (auto x : mp) {
+        ans += x.second;  // Append the word
+        ans += ' ';  // Add a space between words
+    }
+
+    ans.pop_back();  // Remove the trailing space added to the end of the sentence
+    return ans;
+}
+
+int main() {
+    string s;
+    getline(cin, s);  // Read the input sentence from the user
+
+    string ans = sortSentence(s);  // Call the function to sort the sentence
+
+    cout << ans << endl;  // Print the sorted sentence
+
+    return 0;
+}
