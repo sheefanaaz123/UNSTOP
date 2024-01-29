@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+
+class TreeNode
+{
+public:
+    int data;
+    TreeNode *left = NULL, *right = NULL;
+    TreeNode() {}
+    TreeNode(int data) : data(data) {}
+};
+
+TreeNode *insert(TreeNode *root, int val)
+{
+    if (root == NULL)
+    {
+        return new TreeNode(val);
+    }
+    if (val < root->data)
+    {
+        root->left = insert(root->left, val);
+    }
+    else
+    {
+        root->right = insert(root->right, val);
+    }
+    return root;
+}
+
+TreeNode *findNode(TreeNode *root, int val)
+{
+    if (root == NULL || root->data == val)
+    {
+        return root;
+    }
+
+    if (val < root->data)
+    {
+        return findNode(root->left, val);
+    }
+    else
+    {
+        return findNode(root->right, val);
+    }
+}
+
+TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
+{
+    if (root == NULL || p == root || q == root)
+    {
+        return root;
+    }
+    TreeNode *left = lowestCommonAncestor(root->left, p, q);
+    TreeNode *right = lowestCommonAncestor(root->right, p, q);
+
+    if (left == NULL)
+    {
+        return right;
+    }
+    else if (right == NULL)
+    {
+        return left;
+    }
+    else
+    {
+        return root; // answer
+    }
+}
+
+int main()
+{
+    int n;
+    cin >> n; // taking input number of nodes
+    TreeNode *root = NULL;
+    for (int i = 0; i < n; i++)
+    {
+        int a;
+        cin >> a; // taking input values of nodes
+        root = insert(root, a); // inserting value of nodes to form a tree
+    }
+
+    int x, y;
+    cin >> x >> y; // taking input value of 2 nodes a and b
+
+    TreeNode *nodeX = findNode(root, x);
+    TreeNode *nodeY = findNode(root, y);
+
+
+    TreeNode *result = lowestCommonAncestor(root, nodeX, nodeY);
+    cout << result->data << endl;
+
+    return 0;
+}
