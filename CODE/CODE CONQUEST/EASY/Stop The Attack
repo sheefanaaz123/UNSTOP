@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Read the size of the first sequence
+    int n;
+    cin >> n;
+
+    // Read the first sequence
+    string sequence1;
+    cin >> sequence1;
+
+    // Read the size of the second sequence
+    int m;
+    cin >> m;
+
+    // Read the second sequence
+    string sequence2;
+    cin >> sequence2;
+
+    // Initialize variables for the decoded sequence
+    string decodedSequence = "";
+
+    // Determine the length of the shorter sequence
+    int minLength = min(n, m);
+
+    // Merge the sequences by adding characters in alternating sequence
+    for (int i = 0; i < minLength; ++i) {
+        decodedSequence += sequence1[i];
+        decodedSequence += sequence2[i];
+    }
+
+    // Append the remaining characters from the longer sequence
+    if (n > m) {
+        decodedSequence += sequence1.substr(minLength);
+    } else if (m > n) {
+        decodedSequence += sequence2.substr(minLength);
+    }
+
+    // Print the decoded sequence
+    cout << decodedSequence << endl;
+
+    return 0;
+}
