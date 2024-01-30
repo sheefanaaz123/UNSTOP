@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int ways = 0;
+
+void generateExpressions(vector<int>& nums, int target, int currentSum, int index) {
+    // Base case: check if the current expression evaluates to the target value
+    if (index == nums.size()) {
+        if (currentSum == target) {
+            ways++;
+        }
+        return;
+    }
+
+    // Consider addition
+    generateExpressions(nums, target, currentSum + nums[index], index + 1);
+
+    // Consider subtraction
+    generateExpressions(nums, target, currentSum - nums[index], index + 1);
+}
+
+int main() {
+    // Read input
+    int N;
+    cin >> N;
+
+    vector<int> nums(N);
+    for (int i = 0; i < N; ++i) {
+        cin >> nums[i];
+    }
+
+    int target;
+    cin >> target;
+
+    // Generate expressions and count the ways
+    generateExpressions(nums, target, 0, 0);
+
+    // Print the total count of expressions
+    cout << ways << endl;
+
+    return 0;
+}
