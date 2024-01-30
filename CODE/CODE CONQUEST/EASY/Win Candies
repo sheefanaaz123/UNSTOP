@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Class representing a node of the binary tree
+class TreeNode {
+public:
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(): val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int Val): val(Val), left(nullptr), right(nullptr) {}
+    TreeNode(int Val, TreeNode* left, TreeNode* right): val(Val), left(left), right(right) {}
+};
+
+vector<pair<int, int>> inp;  // Vector to store left and right children indices
+vector<int> wt;              // Vector to store weights (values) associated with each node
+
+// Recursive function to construct a binary tree from the given input format
+void constructTree(int i, TreeNode* node) {
+    if (inp[i].first > -1) {
+        // If left child exists, create a new TreeNode and call constructTree recursively
+        node->left = new TreeNode(wt[inp[i].first]);
+        constructTree(inp[i].first, node->left);
+    }
+    if (inp[i].second > -1) {
+        // If right child exists, create a new TreeNode and call constructTree recursively
+        node->right = new TreeNode(wt[inp[i].second]);
+        constructTree(inp[i].second, node->right);
+    }
+}
+
+int ans;                   // Variable to store the final answer (number of paths)
+map<int, int> cnt;          // Map to keep track of prefix sum frequencies during DFS traversal
+
+// Recursive function for depth-first search (DFS) traversal
+void dfs(TreeNode* node, int curr_sum, int tar_sum) {
+    if (!node)
+        return;
+
+    // Calculate current prefix sum
+    curr_sum += node->val;
+
+    // If the path starts from the root node, increment the answer
+    if (curr_sum == tar_sum) {
+        ans++;
+    }
+
+    // If the path starts somewhere below the root node, update the answer
+    ans += cnt[curr_sum - tar_sum];
+
+    // Insert the current sum into the map for later use
+    cnt[curr_sum]++;
+
+    // Process left subtree
+    dfs(node->left, curr_sum, tar_sum);
+
+    // Process right subtree
+    dfs(node->right, curr_sum, tar_sum);
+
+    // Remove the current sum from the map to avoid interference in parallel subtrees
+    cnt[curr_sum]--;
+}
+
+int main() {
+    // Read inputs
+    int n, m;
+    cin >> n >> m;
+    wt.resize(n);
+    for (int i = 0; i < n; i++)
+        cin >> wt[i];
+    inp.resize(n);
+    for (int i = 0; i < n; i++) {
+        cin >> inp[i].first >> inp[i].second;
+        inp[i].first--;
+        inp[i].second--;
+    }
+
+    // Define root node 1
+    TreeNode* root = new TreeNode(wt[0]);
+
+    // Recursive function to construct binary tree
+    constructTree(0, root);
+
+    // Initialize answer as 0
+    ans = 0;
+    
+    // Start DFS from the root to compute the answer for the complete tree
+    dfs(root, 0, m);
+
+    // Print the answer
+    cout << ans << endl;
+
+    return 0;
+}
