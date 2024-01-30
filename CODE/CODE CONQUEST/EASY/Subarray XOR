@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    // Read input
+    int n;
+    cin >> n;
+
+    int result = 0;
+
+    for (int i = 0; i < n; ++i) {
+        int ai;
+        cin >> ai;
+
+        // Calculate the count of subarrays for the current element
+        int count = (i + 1) * (n - i);
+
+        // Update result if the count is odd
+        if (count % 2 != 0) {
+            result ^= ai;
+        }
+    }
+
+    // Print the total XOR obtained
+    cout << result << endl;
+
+    return 0;
+}
