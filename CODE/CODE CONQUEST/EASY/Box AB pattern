@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Read input
+    string s;
+    cin >> s;
+
+    // Find the index of the first occurrence of 'b'
+    int index_b = s.find('b');
+
+    // If 'b' is not present or if all 'a's occur before 'b', it's an ab pattern
+    if (index_b == string::npos || s.find('a', index_b) == string::npos) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+
+    return 0;
+}
