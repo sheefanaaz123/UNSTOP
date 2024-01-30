@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    // Read the number of strips (n) and length of the string (m)
+    int n, m;
+    cin >> n >> m;
+
+    // Read the strings on each strip
+    vector<string> strips(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> strips[i];
+    }
+
+    // Initialize the count of deleted columns
+    int deletedColumns = 0;
+
+    // Iterate through each column
+    for (int col = 0; col < m; ++col) {
+        // Check if the column is not sorted
+        for (int row = 1; row < n; ++row) {
+            if (strips[row][col] < strips[row - 1][col]) {
+                // If not sorted, increment the count and move to the next column
+                ++deletedColumns;
+                break;
+            }
+        }
+    }
+
+    // Print the number of deleted columns
+    cout << deletedColumns << endl;
+
+    return 0;
+}
